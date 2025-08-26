@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planifier le scraping</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome pour les icônes -->
+    <style>
+        body {
+            background-color: #977392; /* Couleur de fond */
+        }
+
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff; /* Couleur de fond du formulaire */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px); /* Animation de légère élévation */
+        }
+
+        h1 {
+            color: #007bff; /* Couleur du titre */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-success {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Couleur de la bordure lors de la mise au point */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre autour du champ */
+        }
+
+        /* Styles pour le spinner */
+        #loadingSpinner {
+            display: none; /* Masqué par défaut */
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Planifier le scraping quotidien</h1>
+
+        <form id="scrapingForm" method="POST" onsubmit="showSpinner()">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="url_input">URL(s) à scrapper <i class="fas fa-link"></i> (séparées par des virgules):</label>
+                <input type="text" name="url_input" class="form-control" required placeholder="Entrez les URL ici...">
+            </div>
+            <div class="form-group">
+                <label for="time_input">Heure de planification <i class="fas fa-clock"></i> (HH:MM):</label>
+                <input type="time" name="time_input" class="form-control" required>
+            </div>
+            <button type="submit" name="schedule_scraping" class="btn btn-success">🗓️ Planifier le scraping quotidien</button>
+        </form>
+
+        <!-- Spinner -->
+        <div id="loadingSpinner">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p>Scraping en cours...</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showSpinner() {
+            // Afficher le spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

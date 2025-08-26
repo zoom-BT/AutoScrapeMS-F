@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exporter les données</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome pour les icônes -->
+    <style>
+        body {
+            background-color: #977392; /* Couleur de fond */
+        }
+
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff; /* Couleur de fond du formulaire */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px); /* Animation de légère élévation */
+        }
+
+        h1 {
+            color: #007bff; /* Couleur du titre */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            margin-bottom: 10px; /* Espace entre le bouton et le select */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Couleur de la bordure lors de la mise au point */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre autour du champ */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Exporter les données</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <select name="file_format" class="form-control" required>
+                    <option value="" disabled selected>Choisir le format de fichier</option>
+                    <option value="CSV">CSV</option>
+                    <option value="JSON">JSON</option>
+                    <option value="Excel">Excel</option>
+                </select>
+            </div>
+            <button type="submit" name="export_data" class="btn btn-secondary">📥 Exporter les données scrapées</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

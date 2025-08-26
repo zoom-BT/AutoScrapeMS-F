@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrape</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Gestion de Scraping</h1>
+    
+    {% if info %}
+        <div class="alert alert-info">{{ info }}</div>
+    {% endif %}
+    
+    {% if warning %}
+        <div class="alert alert-warning">{{ warning }}</div>
+    {% endif %}
+    
+    {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+    
+    {% if data_html %}
+        <h3>Données Scrappées</h3>
+        <div>{{ data_html|safe }}</div>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit" name="show_data" class="btn btn-primary">👁️ Afficher les données scrapées</button>
+        </div>
+    </form>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <button type="submit" name="export_data" class="btn btn-secondary">📥 Exporter les données scrapées</button>
+            <select name="file_format" class="form-control">
+                <option value="CSV">CSV</option>
+                <option value="JSON">JSON</option>
+                <option value="Excel">Excel</option>
+            </select>
+        </div>
+    </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="url_input">URL(s) à scrapper (séparées par des virgules):</label>
+            <input type="text" name="url_input" class="form-control" required>
+            <label for="time_input">Heure de planification (HH:MM):</label>
+            <input type="time" name="time_input" class="form-control" required>
+            <button type="submit" name="schedule_scraping" class="btn btn-success">🗓️ Planifier le scraping quotidien</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

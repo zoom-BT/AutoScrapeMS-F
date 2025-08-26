@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Styles pour la sidebar */
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 200px;
+            background-color: #36618b;
+            color: white;
+            transition: all 0.3s ease;
+            overflow-y: auto; /* Ajout pour éviter le débordement */
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        .sidebar a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Animation au survol des cartes */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 15px; /* Réduction de l'espace entre les cartes */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Couleur de la barre de titre */
+        .navbar {
+            background-color: #08531b !important; /* Couleur de fond */
+            color: #ffffff; /* Couleur du texte */
+        }
+
+        /* Contenu principal */
+        .content {
+            margin-left: 200px;
+            padding: 10px; /* Réduction du padding */
+            background: linear-gradient(135deg, #f0f8ff 0%, #c4c3bc 100%);
+            min-height: 72vh; /* Réduction de la hauteur minimale */
+        }
+
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+        }
+        .sidebar .nav-link i {
+            margin-right: 10px;
+        }
+
+        /* Amélioration de la carte avec des icônes */
+        .card-header i {
+            margin-right: 5px;
+        }
+
+        /* Styles pour le pied de page */
+        .footer {
+            font-size: 2em; /* Ajustez la taille selon vos besoins */
+            margin: 0 10px;
+            background-color: #b1bcc0;
+            color: rgb(17, 16, 16);
+            padding: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .icon-facebook i {
+        color: #3b5998; /* Couleur Facebook */
+        }
+
+        .icon-youtube i {
+            color: #FF0000; /* Rouge pour YouTube */
+        }
+
+        .icon-tiktok i {
+            color: #1d2020; /* Couleur TikTok */
+        }
+
+        .icon-pinterest i {
+            color: #E60023; /* Couleur Pinterest */
+        }
+
+        .icon-instagram i {
+            color: #C13584; /* Couleur Instagram */
+        }
+
+        .footer a {
+            color: white;
+            margin: 0 10px;
+        }
+
+        /* Animations de couleur */
+        .bg-info {
+            animation: pulse 2s infinite alternate;
+        }
+        .bg-warning {
+            animation: pulse 2s infinite alternate;
+            background-color: #ffc107 !important;
+        }
+        .bg-success {
+            animation: pulse 2s infinite alternate;
+            background-color: #28a745 !important;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Paramètres</a>
+                    </li>
+                </ul>
+                <span class="navbar-text mr-2">
+                    <img src="C:/Users/EMMANUEL/Documents/ScrapeBot/icone/avatar.png" alt="{{ user.username }}" class="rounded-circle" style="width: 30px; height: 30px;">
+                </span>
+                <a class="nav-link" href="{% url 'logout' %}">Déconnexion</a>
+            {% else %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">S'inscrire</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="content">
+        <div class="container">
+            {% if user.is_authenticated %}
+                <h1 class="mt-4">Bienvenue sur AutoScrapeBot</h1>
+                <p class="lead">AutoScrapeBot est une application qui permet de collecter des données issues des pages web et stocke automatiquement dans une base de donnée.</p>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-info">
+                            <div class="card-header"><i class="fas fa-user"></i> Nombre d'utilisateurs</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ user_count }}</h5>
+                                <p class="card-text">Utilisateurs enregistrés</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning">
+                            <div class="card-header"><i class="fas fa-database"></i> Nombre de données</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ data_count }}</h5>
+                                <p class="card-text">Données scrapées</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success">
+                            <div class="card-header"><i class="fas fa-envelope"></i> Alertes</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ email_count }}</h5>
+                                <p class="card-text">Personnes recevant des alertes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <h1 class="mt-4 text-center" style="font-size: 2rem;">Veuillez vous connecter pour utiliser cette application.</h1>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar p-4">
+        <h2><i class="fas fa-robot"></i> ASB</h2> <!-- Ajout de l'icône ici -->
+        {% if user.is_authenticated %}
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'scrape' %}"><i class="fas fa-play"></i> Démarrer le scraping</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'affiche' %}"><i class="fas fa-eye"></i> Afficher les données</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'export' %}"><i class="fas fa-file-export"></i> Exporter les données</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'planifie' %}"><i class="fas fa-calendar-alt"></i> Planifier le scraping quotidien</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register_email' %}"><i class="fas fa-envelope"></i> Enregistrer les mails pour la notification</a>
+            </li>
+        </ul>
+        {% else %}
+        <h6>Connectez-vous pour accéder aux fonctionnalités.</h6>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h5>Suivez-nous</h5>
+        <a href="#" target="_blank" class="icon-facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" target="_blank" class="icon-youtube"><i class="fab fa-youtube"></i></a>
+        <a href="#" target="_blank" class="icon-tiktok"><i class="fab fa-tiktok"></i></a>
+        <a href="#" target="_blank" class="icon-pinterest"><i class="fab fa-pinterest"></i></a>
+        <a href="#" target="_blank" class="icon-instagram"><i class="fab fa-instagram"></i></a>        
+    </footer>
+
+    <!-- Bootstrap JS and dependencies (jQuery and Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

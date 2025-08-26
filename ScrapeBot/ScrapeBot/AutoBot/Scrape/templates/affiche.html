@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage des données</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #977392;
+        }
+
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .data-table {
+            margin-top: 20px;
+            overflow-x: auto; /* Ajout du défilement horizontal */
+        }
+
+        .data-table table {
+            min-width: 100%; /* S'assurer que le tableau prend toute la largeur */
+        }
+
+        .data-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+
+        .description-cell {
+            max-width: 200px; /* Ajustez la largeur maximale selon vos besoins */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* Empêche le retour à la ligne */
+            display: inline-block; /* Nécessaire pour que le text-overflow fonctionne */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gestion de Scraping</h1>
+
+        {% if info %}
+        <div class="alert alert-info">{{ info }}</div>
+        {% endif %}
+
+        {% if warning %}
+        <div class="alert alert-warning">{{ warning }}</div>
+        {% endif %}
+
+        {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+        {% endif %}
+
+        {% if data_html %}
+        <h3>Données Scrappées</h3>
+        <div class="data-table">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Date de Scraping</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ data_html|safe }}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">Première</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédente</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</a>
+                </li>
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivante</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Dernière</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+        {% else %}
+        <div class="alert alert-warning">Aucune donnée à afficher.</div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
